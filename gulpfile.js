@@ -2,7 +2,9 @@ var gulp = require('gulp');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var clean = require('gulp-clean');
-var templatecache = require('gulp-angular-templatecache');
+
+const typescript = require('gulp-typescript');
+const tscConfig = require('./tsconfig.json');
 
 var dest = 'static';
 var src = 'frontend';
@@ -17,13 +19,12 @@ var css = [
     src + "/styles.css"
 ];
 
+
 var vendors = [
-    "node_modules/jquery/dist/jquery.min.js",
-    "node_modules/svg-pan-zoom/dist/svg-pan-zoom.min.js",
-    "node_modules/angular/angular.min.js",
-    "node_modules/angular-route/angular-route.min.js",
-    "node_modules/foundation-sites/js/foundation/foundation.js",
-    "node_modules/foundation-sites/js/foundation/foundation.topbar.js"
+    "node_modules/angular2/bundles/angular2-polyfills.js",
+    "node_modules/systemjs/dist/system.src.js",
+    "node_modules/rxjs/bundles/Rx.js",
+    "node_modules/angular2/bundles/angular2.dev.js"
 ];
 
 gulp.task('clean', function () {
@@ -31,29 +32,29 @@ gulp.task('clean', function () {
         .pipe(clean());
 });
 
+gulp.task('compilets', function () {
+    return gulp
+        .src(src + '/**/*.ts')
+        .pipe(sourcemaps.init())
+        .pipe(typescript(tscConfig.compilerOptions))
+        //.pipe(concat('app.js'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(dest));
+});
+
+
 gulp.task('copy', function () {
     return gulp.src(toCopy)
         .pipe(gulp.dest(dest));
 });
 
-gulp.task('copy-world', function () {
-    return gulp.src(src + "/world/*")
-        .pipe(gulp.dest(dest + "/world"));
-});
-
-gulp.task('js', function () {
-    return gulp.src(src + "/js/**/*.js")
-        .pipe(sourcemaps.init())
-        .pipe(concat('app.js'))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest(dest + "/js"));
-});
 
 gulp.task('js-vendors', function () {
     return gulp.src(vendors)
         .pipe(concat('vendors.js'))
-        .pipe(gulp.dest(dest + "/js"));
+        .pipe(gulp.dest(dest));
 });
+
 
 gulp.task('css', function () {
     return gulp.src(css)
@@ -61,23 +62,15 @@ gulp.task('css', function () {
         .pipe(gulp.dest(dest));
 });
 
-gulp.task('templates', function () {
-    return gulp.src(src + "/js/**/*.html")
-        .pipe(templatecache('templates.js', {standalone: true}))
-        .pipe(gulp.dest(dest + "/js"));
-});
-
 gulp.task('default', ["clean"], function() {
     gulp.run(["copy", "copy-world", "js", "js-vendors", "css", "templates"]);
 });
 
 gulp.task('watch', ["clean"], function() {
-    gulp.run(["copy", "copy-world", "js", "js-vendors", "css", "templates"]);
 
-    gulp.watch(src + "/**/*.js", ["js"]);
-    gulp.watch(src + "/**/*.html", ["templates"]);
+    gulp.run(["copy", "compilets", "js-vendors", "css"]);
+    gulp.watch(src + "/**/*.ts", ["compilets"]);
     gulp.watch(toCopy, ["copy"]);
     gulp.watch(css, ["css"]);
-    gulp.watch(src + "/world/*", ["copy-world"]);
 });
 

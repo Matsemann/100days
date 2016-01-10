@@ -1,0 +1,47 @@
+.mapcontainer {
+    position: relative;
+    width: 100%;
+    /*max-width: 805px;*/
+    padding-bottom: 45.5%;
+}
+.fillparent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0a4e6f;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#tooltip {
+    background: rgba(220, 220, 220, 0.8);
+    padding: 3px 5px;
+    position: absolute;
+    border-radius: 3px;
+    font-size: 12px;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+
+    transition: opacity 0.5s ease-in-out;
+}
+
+.scrollable {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.distance {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
