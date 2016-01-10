@@ -31,6 +31,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, './static')));
 app.use('/api', restapi);
+app.use('*', function (req, res, next) {
+    res.sendfile(path.join(__dirname, './static/index.html'));
+});
 
 
 // catch 404 and forward to error handler

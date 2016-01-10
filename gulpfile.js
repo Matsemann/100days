@@ -10,7 +10,7 @@ var dest = 'static';
 var src = 'frontend';
 
 var toCopy = [
-    src + "/index.html"
+    src + "/**/*.html"
 ];
 
 var css = [
@@ -24,7 +24,8 @@ var vendors = [
     "node_modules/angular2/bundles/angular2-polyfills.js",
     "node_modules/systemjs/dist/system.src.js",
     "node_modules/rxjs/bundles/Rx.js",
-    "node_modules/angular2/bundles/angular2.dev.js"
+    "node_modules/angular2/bundles/angular2.dev.js",
+    "node_modules/angular2/bundles/router.dev.js"
 ];
 
 gulp.task('clean', function () {
