@@ -1,1 +1,20 @@
-yoyoyo register here plz
+<h3>Registrer deg</h3>
+
+<div *ngIf="!hasCreated">
+
+    <div class="row">
+        <div class="medium-6 columns">
+            <input required type="text" placeholder="Navn" [(ngModel)]="name"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-5 medium-3 columns">
+            <button class="button info" [disabled]="name.length == 0" (click)="register()">Bli med!</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="hasCreated">
+    <p>Lagret</p>
+</div>
+
+<p><a [routerLink]="['Landing']">Tilbake</a></p>

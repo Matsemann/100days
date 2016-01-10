@@ -5,53 +5,12 @@ var pg = require('pg');
 var connectionString = require('./config');
 
 
-router.get('/test', function (req, res, next) {
-    runQuery('SELECT * from participant', null, success, next);
 
-    function success(result) {
-        res.json({success: "true?", result: result});
-    }
-});
+router.get('/participant', function (req, res, next) {
 
-router.get('/team', function (req, res, next) {
-    runQuery('SELECT t.id as tid, t.name as tname, p.id as pid, p.name as pname ' +
-        'FROM team t ' +
-        'LEFT JOIN participant p ON t.id = p.teamid', null, success, next);
-
-    function success(result) {
-        var teams = [];
-        for (var i = 0; i < result.rows.length; i++) {
-            var row = result.rows[i];
-
-            var team = getById(teams, row.tid);
-            if (!team) {
-                team = {
-                    id: row.tid,
-                    name: row.tname,
-                    participants: []
-                };
-                teams.push(team);
-            }
-
-            if (row.pid) {
-                team.participants.push({
-                    id: row.pid,
-                    name: row.pname
-                });
-            }
-        }
-
-        res.json(teams);
-    }
-
-});
-
-router.get('/distance/participants', function (req, res, next) {
-
-    runQuery('SELECT d.date, d.meters, p.name, p.id as pid, t.name as tname ' +
-        'FROM distancelog d ' +
-        'LEFT JOIN participant p ON d.participantid = p.id ' +
-        'LEFT JOIN team t ON t.id = p.teamid', null, success, next);
+    runQuery('SELECT l.date, l.time, p.name, p.id as pid ' +
+        'FROM participant p ' +
+        'LEFT JOIN log l ON l.participantid = p.id', null, success, next);
 
 
     function success(result) {
@@ -65,85 +24,35 @@ router.get('/distance/participants', function (req, res, next) {
                 participant = {
                     id: row.pid,
                     name: row.name,
-                    totalDistance: 0,
-                    teamName: row.tname,
+                    totalTime: 0,
                     days: {}
                 };
                 participants.push(participant);
             }
 
-            participant.totalDistance += row.meters;
+            participant.totalTime += row.time;
 
-            participant.days[row.date] = row.meters;
+            participant.days[row.date] = row.time;
         }
 
         res.json(participants);
     }
 });
 
-router.get('/distance/teams', function (req, res, next) {
-
-    runQuery('SELECT d.date, SUM(d.meters) as daytotal, t.name as tname, t.id as tid ' +
-        'FROM distancelog d ' +
-        'LEFT JOIN participant p ON d.participantid = p.id ' +
-        'LEFT JOIN team t ON p.teamid = t.id ' +
-        'GROUP BY t.id, d.date', null, success, next);
 
 
-    function success(result) {
-        var teams = [];
-
-
-        for (var i = 0; i < result.rows.length; i++) {
-            var row = result.rows[i];
-
-            var team = getById(teams, row.tid);
-
-            if (team == null) {
-                team = {
-                    id: row.tid,
-                    name: row.tname,
-                    totalDistance: 0,
-                    days: {}
-                };
-                teams.push(team);
-            }
-
-            var totalDistance = parseInt(row.daytotal, 10);
-            team.totalDistance += totalDistance;
-
-            team.days[row.date] = totalDistance;
-        }
-
-        res.json(teams);
-    }
-
-});
-
-
-router.post('/team', function (req, res, next) {
-    var teamName = req.body.name;
-    runQuery("INSERT INTO team(name) values(($1))", [teamName], success, next);
-
-    function success(result) {
-        console.log("Created team " + teamName);
-        res.json({message: "team created"});
-    }
-});
-
-router.post('/team/:id/player', function (req, res, next) {
+router.post('/participant', function (req, res, next) {
     var playerName = req.body.name;
-    var teamId = parseInt(req.params.id, 10);
 
-    runQuery("INSERT INTO participant(teamid, name) values(($1), ($2))", [teamId, playerName], success, next);
+    runQuery("INSERT INTO participant(name) values(($1))", [playerName], success, next);
 
     function success(result) {
-        console.log("Added player " + playerName + " to teamid " + teamId);
+        console.log("Added player " + playerName);
         res.json({message: "player created"});
     }
 });
 
-router.post('/distance/:participantid', function (req, res, next) {
+router.post('/participant/:participantid/log', function (req, res, next) {
     var participantid = parseInt(req.params.participantid, 10);
     var distance = parseInt(req.body.distance, 10);
     var date = req.body.date;

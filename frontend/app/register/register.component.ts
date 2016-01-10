@@ -1,11 +1,23 @@
 import {Component} from 'angular2/core';
+import {UserService} from "../user/user.service";
+import {ROUTER_DIRECTIVES} from "angular2/router";
 
 @Component({
     templateUrl: 'app/register/registerTemplate.html',
-
+    directives: [ROUTER_DIRECTIVES]
 })
 export class RegisterComponent {
-    getData = function () {
-        return "hhehee";
+    name = "";
+    hasCreated = false;
+
+    constructor(private userService:UserService) {
+    }
+
+    register() {
+        console.log('clicking');
+        this.userService.createUser(this.name)
+            .subscribe(() => {
+                this.hasCreated = true;
+            });
     }
 }

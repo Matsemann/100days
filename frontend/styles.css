@@ -41,3 +41,7 @@
 body {
     background: #e6e6e6;
 }
+
+input.ng-touched.ng-invalid {
+    border-color: #ff5d64;
+}
