@@ -14,7 +14,6 @@ export class RegisterComponent {
     }
 
     register() {
-        console.log('clicking');
         this.userService.createUser(this.name)
             .subscribe(() => {
                 this.hasCreated = true;

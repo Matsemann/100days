@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="small-5 medium-3 columns">
+        <label>Hvem er du?
+            <select [ngModel]="selectedId" (ngModelChange)="changed($event)">
+                <option value="-1"></option>
+
+                <option *ngFor="#u of users" [value]="u.id">{{u.name}}</option>
+            </select>
+        </label>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-5 medium-3 columns">
+        <button class="button info small" [disabled]="!selectedUser" (click)="register()">Loggfør</button>
+    </div>
+</div>

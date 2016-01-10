@@ -1,9 +1,12 @@
 import {Injectable} from 'angular2/core'
 import {Http} from "angular2/http";
 import {Headers} from "angular2/http";
+import {User} from "./user";
+import {Observable} from "../../../node_modules/rxjs/Observable";
 
 @Injectable()
 export class UserService {
+    private static KEY = 'selectedUser';
 
     constructor(private http:Http) {
     }
@@ -17,6 +20,19 @@ export class UserService {
                 })
             })
             .map(e => e.json());
+    }
+
+    getUsers() {
+        return this.http.get('/api/participant')
+        .map(u => u.json() as Array<User>);
+    }
+
+    getSavedSelectedUserId() {
+        return localStorage.getItem(UserService.KEY);
+    }
+
+    setSavedSelectedUserId(userId) {
+        localStorage.setItem(UserService.KEY, userId);
     }
 
 
