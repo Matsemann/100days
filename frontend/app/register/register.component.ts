@@ -15,8 +15,9 @@ export class RegisterComponent {
 
     register() {
         this.userService.createUser(this.name)
-            .subscribe(() => {
+            .subscribe((res:any) => {
                 this.hasCreated = true;
+                this.userService.setSavedSelectedUserId(res.newId);
             });
     }
 }

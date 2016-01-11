@@ -44,11 +44,11 @@ router.get('/participant', function (req, res, next) {
 router.post('/participant', function (req, res, next) {
     var playerName = req.body.name;
 
-    runQuery("INSERT INTO participant(name) values(($1))", [playerName], success, next);
+    runQuery("INSERT INTO participant(name) values(($1)) RETURNING id", [playerName], success, next);
 
     function success(result) {
         console.log("Added player " + playerName);
-        res.json({message: "player created"});
+        res.json({newId: result.rows[0].id});
     }
 });
 
