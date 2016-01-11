@@ -16,4 +16,9 @@ import {LogComponent} from "./log/log.component";
     {path:'/log/:id', name: 'Log', component: LogComponent}
 ])
 export class HundreddaysApp {
+
+    constructor() {
+        console.log("ಠ_ಠ");
+        console.log("hallo");
+    }
 }
