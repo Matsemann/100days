@@ -3,6 +3,7 @@ import {RouteConfig, ROUTER_DIRECTIVES} from "angular2/router";
 
 import {RegisterComponent} from "./register/register.component";
 import {LandingComponent} from "./landingpage/landing.component";
+import {LogComponent} from "./log/log.component";
 
 @Component({
     selector: 'hundred-days',
@@ -11,10 +12,8 @@ import {LandingComponent} from "./landingpage/landing.component";
 })
 @RouteConfig([
     {path:'/', name: 'Landing', component: LandingComponent},
-    {path:'/register', name: 'Register', component: RegisterComponent}
+    {path:'/register', name: 'Register', component: RegisterComponent},
+    {path:'/log/:id', name: 'Log', component: LogComponent}
 ])
 export class HundreddaysApp {
-    getData = function () {
-        return "hhehee";
-    }
 }

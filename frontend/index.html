@@ -5,21 +5,22 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="vendors.js"></script>
-    <link rel="stylesheet" href="styles.css"/>
+    <script src="/vendors.js"></script>
+    <link rel="stylesheet" href="/styles.css"/>
     <base href="/">
 
 
     <script>
         System.config({
             packages: {
-                app: {
+                "/app": {
                     format: 'register',
-                    defaultExtension: 'js'
+                    defaultExtension: 'js',
+                    paths: '/'
                 }
             }
         });
-        System.import('app/boot')
+        System.import('/app/boot')
                 .then(null, console.error.bind(console));
     </script>
     <title>#100dager</title>

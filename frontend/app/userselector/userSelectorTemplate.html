@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="small-5 medium-3 columns">
+    <div class="small-12 medium-4 columns">
         <label>Hvem er du?
             <select [ngModel]="selectedId" (ngModelChange)="changed($event)">
                 <option value="-1"></option>
@@ -12,6 +12,6 @@
 
 <div class="row">
     <div class="small-5 medium-3 columns">
-        <button class="button info small" [disabled]="!selectedUser" (click)="register()">Loggfør</button>
+        <button class="button info small" [disabled]="!selectedUser" [routerLink]="['Log', {id: selectedId}]">Loggfør</button>
     </div>
 </div>

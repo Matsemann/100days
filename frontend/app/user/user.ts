@@ -1,5 +1,5 @@
 export interface User {
     id: number;
     name: string;
-    times: Map<string, string>;
+    days: Map<string, string>;
 }

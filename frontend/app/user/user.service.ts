@@ -22,9 +22,9 @@ export class UserService {
             .map(e => e.json());
     }
 
-    getUsers() {
+    getUsers():Observable<Array<User>> {
         return this.http.get('/api/participant')
-        .map(u => u.json() as Array<User>);
+        .map(u => u.json());
     }
 
     getSavedSelectedUserId() {
