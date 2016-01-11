@@ -28,9 +28,9 @@ export class UserSelectorComponent implements OnInit {
             });
     }
 
-    changed(id) {
+    changed(id:number) {
         this.selectedId = id;
-        if (id != "-1") {
+        if (id != -1) {
             this.selectedUser = this.users.filter(u => u.id == id)[0];
         } else {
             this.selectedUser = null;

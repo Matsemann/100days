@@ -31,8 +31,19 @@ export class UserService {
         return localStorage.getItem(UserService.KEY);
     }
 
-    setSavedSelectedUserId(userId) {
+    setSavedSelectedUserId(userId:any) {
         localStorage.setItem(UserService.KEY, userId);
+    }
+
+    log(userId:number, day:string, amount:number) {
+        return this.http.post('/api/participant/' + userId + '/log',
+            JSON.stringify({day: day, amount: amount}),
+            {
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            })
+            .map(e => e.json().amount);
     }
 
 

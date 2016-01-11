@@ -1,0 +1,21 @@
+
+<div class="logrow" [class.today]="isToday">
+    <span class="dagnr">
+        Dag {{day.dayNr}}
+    </span>
+    <span class="dato">
+        {{day.day}}
+    </span>
+    <div class="logbuttons">
+        <a class="button supertiny" (click)="click(-5)">-5</a>
+        <a class="button supertiny" (click)="click(-15)">-15</a>
+        <a class="button supertiny" (click)="click(-30)">-30</a>
+
+        <span class="editingvalue">{{editingValue}}</span>
+
+        <a class="button supertiny" (click)="click(30)">+30</a>
+        <a class="button supertiny" (click)="click(15)">+15</a>
+        <a class="button supertiny" (click)="click(5)">+5</a>
+
+    </div>
+</div>

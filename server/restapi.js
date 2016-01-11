@@ -54,22 +54,22 @@ router.post('/participant', function (req, res, next) {
 
 router.post('/participant/:participantid/log', function (req, res, next) {
     var participantid = parseInt(req.params.participantid, 10);
-    var distance = parseInt(req.body.distance, 10);
-    var date = req.body.date;
+    var minutes = parseInt(req.body.amount, 10);
+    var date = req.body.day;
 
-    runQuery("SELECT meters FROM distancelog WHERE date = ($1) AND participantid = ($2)", [date, participantid],
+    runQuery("SELECT time FROM log WHERE date = ($1) AND participantid = ($2)", [date, participantid],
         function (result) {
             if (result.rows.length > 0) {
-                runQuery("UPDATE distancelog SET meters = ($1) WHERE date = ($2) AND participantid = ($3)",
-                    [distance, date, participantid], success, next);
+                runQuery("UPDATE log SET time = ($1) WHERE date = ($2) AND participantid = ($3)",
+                    [minutes, date, participantid], success, next);
             } else {
-                runQuery("INSERT INTO distancelog(meters, date, participantid) VALUES(($1), ($2), ($3))",
-                    [distance, date, participantid], success, next);
+                runQuery("INSERT INTO log(time, date, participantid) VALUES(($1), ($2), ($3))",
+                    [minutes, date, participantid], success, next);
             }
 
             function success(result) {
-                console.log("Set distance to " + distance + "for p " + participantid + " at " + date);
-                res.json({message: "logged distance"});
+                console.log("Set minutes to " + minutes + "for p " + participantid + " at " + date);
+                res.json({amount: minutes});
             }
         }, next);
 
