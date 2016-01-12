@@ -100,7 +100,11 @@ export class GraphComponent implements OnInit {
             showInLegend: true,
             dataPoints: [
                 {x: 0, y: goal/DayService.NUM_DAYS},
-                {x: DayService.NUM_DAYS, y: goal}
+                {
+                    x: DayService.NUM_DAYS,
+                    y: goal,
+                    text: this.dayService.minutesToHoursAndMinutes(goal*60)
+                }
             ]
         }
     }
