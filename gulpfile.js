@@ -26,7 +26,8 @@ var vendors = [
     "node_modules/rxjs/bundles/Rx.js",
     "node_modules/angular2/bundles/angular2.dev.js",
     "node_modules/angular2/bundles/router.dev.js",
-    "node_modules/angular2/bundles/http.dev.js"
+    "node_modules/angular2/bundles/http.dev.js",
+    "canvasjs/canvasjs.min.js"
 ];
 
 gulp.task('clean', function () {

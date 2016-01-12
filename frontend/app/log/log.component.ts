@@ -54,7 +54,7 @@ export class LogComponent implements OnInit {
 
     goToToday() {
         // hack fordi det er midnatt..
-        let today:HTMLElement = <HTMLElement>document.getElementsByClassName('today')[0];
+        let today = <HTMLElement>document.getElementsByClassName('today')[0];
         today.scrollIntoView(false);
     }
 

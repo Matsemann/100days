@@ -89,3 +89,9 @@ input.ng-touched.ng-invalid {
 .logrow.today {
     background: #9c9c9c;
 }
+
+
+#graphcontainer {
+    margin-bottom: 40px;
+    height: 400px;
+}

@@ -1,6 +1,5 @@
-import {Component} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {UserService} from "../user/user.service";
-import {OnInit} from "angular2/core";
 import {User} from "../user/user";
 import {ROUTER_DIRECTIVES} from "angular2/router";
 
@@ -11,7 +10,7 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
     directives: [ROUTER_DIRECTIVES]
 })
 export class UserSelectorComponent implements OnInit {
-    users:Array<User>;
+    @Input() users:Array<User>;
     selectedUser:User;
     selectedId = -1;
 
@@ -19,13 +18,8 @@ export class UserSelectorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.getUsers()
-            .subscribe(result => {
-                this.users = result;
-
-                this.selectedId = this.userService.getSavedSelectedUserId();
-                this.selectedUser = this.users.filter(u => u.id == this.selectedId)[0];
-            });
+        this.selectedId = this.userService.getSavedSelectedUserId();
+        this.selectedUser = this.users.filter(u => u.id == this.selectedId)[0];
     }
 
     changed(id:number) {

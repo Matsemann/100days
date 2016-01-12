@@ -23,6 +23,13 @@ export class DayService {
         return [year, month, day].join('-');
     }
 
+    minutesToHoursAndMinutes(minutes:number) {
+        let hours = Math.floor(minutes / 60);
+        let remaining = minutes - hours * 60;
+
+        return hours + 't' + remaining + 'min';
+    }
+
     getDays() {
         let current = DayService.START_DATE;
 
